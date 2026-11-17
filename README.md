@@ -20,18 +20,51 @@ Jira board: https://ibm-consulting-sandbox003.atlassian.net/jira/software/projec
 The live session does not cover installation or connection setup. Please complete every step
 below and run the smoke test at the end. It takes about 10-15 minutes.
 
-### 1. Install the tools
+**You can use IBM Bob to do the clone and install steps for you.** That is a good way to try Bob
+before the session. Bob can run the commands, but you still need to approve each one, and a few
+things only you can do (see "What Bob cannot do for you" below).
+
+### 1. Install the tools (manual)
+- IBM Bob
 - [Node.js](https://nodejs.org) 20 or later (`node -v`)
 - Git (`git --version`)
-- IBM Bob
 
-### 2. Clone the repo and install dependencies
+Bob can check whether Node and Git are present, but installing them usually needs admin rights
+and your company's software process, so do this step yourself.
+
+### 2. Clone the repo and install dependencies (Bob can do this)
+1. In your file manager, create an **empty folder** (for example `workshop`).
+2. In IBM Bob, open that folder as your workspace.
+3. Paste this prompt into Bob and approve each command it proposes:
+
+```text
+Check that Node.js 20 or later and Git are installed. Then clone https://github.com/satishkumar-sarathi-pillai/UKI-QUALI-CON.git into this workspace, run npm install in the cloned folder, and run npx playwright install chromium. Tell me the result of each command and stop if any step fails. Do not change any files.
+```
+
+4. Open the cloned `UKI-QUALI-CON` folder as your Bob workspace, so later prompts can see the tests.
+
+Prefer the terminal? These are the equivalent commands:
 ```bash
 git clone https://github.com/satishkumar-sarathi-pillai/UKI-QUALI-CON.git
 cd UKI-QUALI-CON
 npm install
 npx playwright install chromium
 ```
+
+Check it worked:
+```text
+In the UKI-QUALI-CON folder, run npx playwright --version and list the tests with npx playwright test --list. Do not run the tests.
+```
+Expected: Playwright 1.65.1 and 2 tests listed.
+
+### What Bob cannot do for you
+- **Create your Jira API token.** It needs you signed in to the Atlassian website (step 3).
+- **Know your token.** Type it into the MCP settings file yourself. Do **not** paste it into a
+  Bob chat, because a secret in a conversation is easy to leak or screen-share.
+- **Install Node, Git or Bob itself** without admin rights and your company's approval.
+- **Get past a blocked network.** `npm install` and the Chromium download (a few hundred MB)
+  can fail behind a corporate proxy or firewall. If Bob reports a network error, tell the
+  facilitator before the session.
 
 ### 3. Create your own Jira API token
 1. Sign in to the sandbox site: https://ibm-consulting-sandbox003.atlassian.net
@@ -40,7 +73,13 @@ npx playwright install chromium
 
 ### 4. Add the Jira MCP server in IBM Bob
 Add an `atlassian-jira` server in Bob's MCP settings (`~/.bob/settings/mcp.json`) using the
-`mcp-atlassian` package. The values that matter:
+`mcp-atlassian` package. Bob can help with the structure, for example:
+
+```text
+Install the mcp-atlassian npm package globally and show me the atlassian-jira entry I need to add to my Bob MCP settings. Use placeholders for the email and token. Do not ask me for the token and do not write it anywhere.
+```
+
+Then edit the file yourself and enter your real email and token. The values that matter:
 
 | Setting | Value |
 |---|---|
@@ -53,6 +92,12 @@ Add an `atlassian-jira` server in Bob's MCP settings (`~/.bob/settings/mcp.json`
 > that does not contain `ibm-consulting-sandbox003`.
 
 Reload the MCP server in Bob after saving.
+
+> **Package maintenance note:** `mcp-atlassian` (a community package, MIT licence) was last
+> published in August 2025, so it does not meet an "updated within 6 months" maintenance
+> standard. In testing, single-ticket reads and creates worked, but JQL search and
+> parent/child details did not (cause not investigated). Treat it as workshop-only, and
+> check with your security team before using it on real projects.
 
 ### 5. Smoke test (must pass before the session)
 Paste this into IBM Bob:
