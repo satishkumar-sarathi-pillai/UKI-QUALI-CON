@@ -1,0 +1,14 @@
+{
+  "name": "uki-quali-con-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-augmented QA workshop: Playwright tests for SauceDemo (Jira UKIQC-1)",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}
