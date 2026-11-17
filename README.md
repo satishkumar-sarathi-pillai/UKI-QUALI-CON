@@ -27,7 +27,7 @@ below and run the smoke test at the end. It takes about 10-15 minutes.
 
 ### 2. Clone the repo and install dependencies
 ```bash
-git clone <REPO_URL>
+git clone https://github.com/satishkumar-sarathi-pillai/UKI-QUALI-CON.git
 cd UKI-QUALI-CON
 npm install
 npx playwright install chromium
